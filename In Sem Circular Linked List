@@ -1,0 +1,315 @@
+#include <stdio.h>
+
+#include <string.h>
+
+#include <math.h>
+
+#include <stdlib.h>
+
+#define null NULL
+
+struct node{
+
+  int data;
+
+  struct node*next;
+
+};
+
+struct node*create(int data)
+
+{
+
+    struct node*newnode;
+
+    newnode=(struct node*)malloc(sizeof(struct node));
+
+    if(newnode==null)
+
+    {
+
+        return null;
+
+    }
+
+    newnode->data=data;
+
+    return newnode;
+
+}
+
+int count(struct node*head)
+
+{
+
+    struct node*temp=head;
+
+    int c=0;
+
+    while(temp!=NULL)
+
+    {
+
+        c++;
+
+        temp=temp->next;
+
+    }
+
+    return c;
+
+}
+
+struct node*deleteatend(struct node*head)
+
+{
+
+    if(head==null)
+
+    {
+
+        return null;
+
+    }
+
+    struct node*temp1,*temp2=head;
+
+while(temp2->next!=null)
+
+{
+
+    temp1=temp2;
+
+    temp2=temp2->next;
+
+}
+
+temp1->next=null;
+
+free(temp2);
+
+return head;
+
+}
+
+struct node*deletebypos(struct node*head,int pos)
+
+{
+
+    struct node *temp = head;      
+
+    int i;                    
+
+    if(pos==0)
+
+    {
+
+        
+
+        head=head->next;        
+
+        temp->next=NULL;
+
+        free(temp);
+
+        return head;            
+
+    }
+
+    else if(count(head)<pos)
+
+    {
+
+        printf("NotPossible\n");
+
+        
+
+        return head;
+
+    }
+
+    else
+
+    {
+
+        for(i=0;i<pos-1;i++)
+
+        {
+
+            temp=temp->next;
+
+        }
+
+       
+
+        struct node *del =temp->next;    
+
+        temp->next=temp->next->next;
+
+            
+
+        del->next=NULL;
+
+        free(del);  
+
+         return head;
+
+        
+
+    }
+
+  
+
+   
+
+
+
+}
+
+struct node*insert(struct node*head,int data)
+
+{
+
+    if(head==null)
+
+    {
+
+        head=create(data);
+
+        return head;
+
+    }
+
+    struct node*newnode;
+
+    newnode=create(data);
+
+    struct node*temp=head;
+
+    while(temp->next!=null)
+
+    {
+
+        temp=temp->next;
+
+    }
+
+    temp->next=newnode;
+
+    return head;
+
+}
+
+void search(struct node*head,int key)
+
+{
+
+    struct node*temp=head;
+
+    while(temp!=NULL)
+
+    {
+
+        if(temp->data==key)
+
+        {
+
+            printf("ElementFound\n");
+
+            return ;
+
+        }
+
+        temp=temp->next;
+
+    }
+
+    printf("NotFound\n");
+
+}
+
+void display(struct node*head)
+
+{
+
+    struct node*temp=head;
+
+    while(temp!=NULL)
+
+    {
+
+        printf("%d ",temp->data);
+
+        temp=temp->next;
+
+    }
+
+    printf("\n");
+
+}
+
+int main() {
+
+    struct node*head=NULL;
+
+    int n;
+
+    scanf("%d",&n);
+
+    while(n--)
+
+    {
+
+        int a;
+
+        scanf("%d",&a);
+
+        head=insert(head, a);
+
+    }
+
+    int f,d;
+
+    while(1)
+
+    {
+
+        scanf("%d",&f);
+
+        switch(f)
+
+        {
+
+            case 1:
+
+                scanf("%d",&d);
+
+                head=deletebypos( head, d);
+
+                break;
+
+            case 2:
+
+                scanf("%d",&d);
+
+                search(head,  d);
+
+                break;
+
+            case 3:
+
+                display(head);
+
+                break;
+
+            case 4:
+
+                exit(0);
+
+        }
+
+    }
+
+    return 0;
+
+}
